@@ -1,0 +1,10 @@
+{
+	"extends": "@sapphire/ts-config",
+    "compilerOptions": {
+		"rootDir": "./src",
+		"outDir": "./dist",
+		"composite": true,
+		"preserveConstEnums": true
+	},
+	"include": ["."]
+}

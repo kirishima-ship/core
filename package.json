@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@sapphire/eslint-config": "4.0.9",
-    "@sapphire/prettier-config": "1.2.8",
+    "@sapphire/prettier-config": "1.4.0",
     "@sapphire/ts-config": "3.1.7",
     "eslint": "8.6.0",
     "prettier": "2.5.1",

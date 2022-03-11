@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-extraneous-class */
 import type { Extendable } from '../typings';
 
+import { KirishimaNode } from './KirishimaNode';
+import { KirishimaPlayer } from './KirishimaPlayer';
+import { KirishimaPartialTrack } from './Track/KirishimaPartialTrack';
+import { KirishimaTrack } from './Track/KirishimaTrack';
+
 export abstract class Structure {
 	public constructor() {
 		throw new Error(`The ${this.constructor.name} class may not be instantiated!`);
@@ -21,6 +26,8 @@ export abstract class Structure {
 }
 
 const structures = {
-	KirishimaNode: require('./KirishimaNode'),
-	KirishimaPlayer: require('./KirishimaPlayer')
+	KirishimaNode,
+	KirishimaPlayer,
+	KirishimaPartialTrack,
+	KirishimaTrack
 };

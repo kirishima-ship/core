@@ -2,6 +2,8 @@ import { Awaitable } from '@sapphire/utilities';
 import type { GatewayOpcodes } from 'discord-api-types/gateway/v9';
 import type { KirishimaNode } from '../Structures/KirishimaNode';
 import type { KirishimaPlayer } from '../Structures/KirishimaPlayer';
+import type { KirishimaTrack } from '../Structures/Track/KirishimaTrack';
+import type { KirishimaPartialTrack } from '../Structures/Track/KirishimaPartialTrack';
 
 export interface KirishimaOptions {
 	clientId?: string;
@@ -39,4 +41,6 @@ export interface KirishimaNodeOptions {
 export interface Extendable {
 	KirishimaNode: typeof KirishimaNode;
 	KirishimaPlayer: typeof KirishimaPlayer;
+	KirishimaTrack: typeof KirishimaTrack;
+	KirishimaPartialTrack: typeof KirishimaPartialTrack;
 }

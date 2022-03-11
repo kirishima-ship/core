@@ -1,5 +1,3 @@
-import { LavalinkTrack } from 'lavalink-api-types';
-
 /**
  * @description Represents a unplayable track by lavalink. This is a partial track. that must be resolved later
  */

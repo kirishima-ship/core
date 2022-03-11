@@ -10,14 +10,19 @@ export interface KirishimaOptions {
 	clientName?: string;
 	nodes: KirishimaNodeOptions[];
 	send(guildId: string, payload: payload): Awaitable<unknown>;
-	/** @description customize-able player handler, allow you to set it to collection or even redis. */
-	player?: PlayerOptionHook;
+	/** @description customize-able spawn-player handler, allow you to set it to collection or even redis. */
+	spawnPlayer?: SpawnPlayerOptionHook;
+	/** @description Used for getting global player, most likely used when `VOICE_SERVER_UPDATE` and `VOICE_SERVER_UPDATE` emits. */
+	fetchPlayer?: PlayerOptionHook;
 }
 
-export interface PlayerOptionHook {
+export interface SpawnPlayerOptionHook {
 	(guildId: string, options: KirishimaPlayerOptions, node: KirishimaNode): Awaitable<KirishimaPlayer>;
 }
 
+export interface PlayerOptionHook {
+	(guildId: string): Awaitable<KirishimaPlayer>;
+}
 export interface payload {
 	op: GatewayOpcodes;
 	d: {

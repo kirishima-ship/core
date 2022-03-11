@@ -3,7 +3,7 @@ import type { KirishimaNodeOptions, KirishimaOptions, KirishimaPlayerOptions } f
 import crypto from 'node:crypto';
 
 import { KirishimaNode } from './KirishimaNode';
-import { GatewayOpcodes } from 'discord-api-types/gateway/v9';
+import { GatewayOpcodes, GatewayVoiceServerUpdateDispatch, GatewayVoiceStateUpdateDispatch } from 'discord-api-types/gateway/v9';
 import Collection from '@discordjs/collection';
 import { KirishimaPlayer } from './KirishimaPlayer';
 
@@ -15,9 +15,19 @@ export class Kirishima extends EventEmitter {
 
 		if (typeof options.send !== 'function') throw Error('Send function must be present and must be a function.');
 
-		if (typeof options.player !== 'function' || typeof options.player === undefined) {
+		if (
+			typeof options.spawnPlayer !== 'function' ||
+			(typeof options.spawnPlayer === undefined && (typeof options.fetchPlayer !== 'function' || typeof options.fetchPlayer === undefined))
+		) {
 			this.players = new Collection();
-			options.player = this.defaultPlayerHandler.bind(this);
+			options.spawnPlayer = this.defaultSpawnPlayerHandler.bind(this);
+		}
+
+		if (
+			typeof options.fetchPlayer !== 'function' ||
+			(typeof options.fetchPlayer === undefined && (typeof options.spawnPlayer !== 'function' || typeof options.spawnPlayer === undefined))
+		) {
+			options.fetchPlayer = this.defaultFetchPlayerHandler.bind(this);
 		}
 
 		if (!options.nodes.length) throw new Error('Nodes option must not a empty array');
@@ -62,16 +72,32 @@ export class Kirishima extends EventEmitter {
 
 	public async spawnPlayer(options: KirishimaPlayerOptions, node?: KirishimaNode) {
 		node ??= this.nodes.first();
-		const player = await this.options.player!(options.guildId, options, node!);
+		const player = await this.options.spawnPlayer!(options.guildId, options, node!);
 		return player.connect();
 	}
 
-	private defaultPlayerHandler(guildId: string, options: KirishimaPlayerOptions, node: KirishimaNode) {
+	public async handleVoiceServerUpdate(packet: GatewayVoiceServerUpdateDispatch) {
+		for (const node of [...this.nodes.values()]) {
+			await node.handleVoiceServerUpdate(packet);
+		}
+	}
+
+	public async handleVoiceStateUpdate(packet: GatewayVoiceStateUpdateDispatch) {
+		for (const node of [...this.nodes.values()]) {
+			await node.handleVoiceStateUpdate(packet);
+		}
+	}
+
+	private defaultSpawnPlayerHandler(guildId: string, options: KirishimaPlayerOptions, node: KirishimaNode) {
 		const player = this.players!.has(guildId);
 		if (player) return this.players!.get(guildId)!;
 		const kirishimaPlayer = new KirishimaPlayer(options, this, node);
 		this.players?.set(guildId, kirishimaPlayer);
 		return kirishimaPlayer;
+	}
+
+	private defaultFetchPlayerHandler(guildId: string) {
+		return this.players!.get(guildId)!;
 	}
 
 	public static createVoiceChannelPayload(options: KirishimaPlayerOptions, leave?: boolean) {

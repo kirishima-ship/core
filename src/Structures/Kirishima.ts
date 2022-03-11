@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { EventEmitter } from 'node:events';
 import type { KirishimaNodeOptions, KirishimaOptions, KirishimaPlayerOptions } from '../typings';
 import crypto from 'node:crypto';
@@ -68,8 +67,8 @@ export class Kirishima extends EventEmitter {
 	}
 
 	private defaultPlayerHandler(guildId: string, options: KirishimaPlayerOptions, node: KirishimaNode) {
-		const player = this.players?.has(guildId);
-		if (player) return this.players?.get(guildId)!;
+		const player = this.players!.has(guildId);
+		if (player) return this.players!.get(guildId)!;
 		const kirishimaPlayer = new KirishimaPlayer(options, this, node);
 		this.players?.set(guildId, kirishimaPlayer);
 		return kirishimaPlayer;

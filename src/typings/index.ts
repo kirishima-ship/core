@@ -10,6 +10,12 @@ export interface KirishimaOptions {
 	clientName?: string;
 	nodes: KirishimaNodeOptions[];
 	send(guildId: string, payload: payload): Awaitable<unknown>;
+	/** @description customize-able player handler, allow you to set it to collection or even redis. */
+	player?: PlayerOptionHook;
+}
+
+export interface PlayerOptionHook {
+	(guildId: string, options: KirishimaPlayerOptions, node: KirishimaNode): Awaitable<KirishimaPlayer>;
 }
 
 export interface payload {

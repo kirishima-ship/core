@@ -42,4 +42,13 @@ export class KirishimaNode {
 	public message(gateway: Gateway, raw: string) {
 		this.kirishima.emit('nodeRaw', this, gateway, raw);
 	}
+
+	public toJSON() {
+		return {
+			identifier: this.options.identifier,
+			url: this.options.url,
+			secure: this.options.secure,
+			password: this.options.password
+		};
+	}
 }

@@ -22,7 +22,7 @@
   },
   "readme": "https://github.com/kirishima-ship/core/blob/main/README.md",
   "engines": {
-    "node": ">=14.0.0",
+    "node": ">=16.0.0",
     "npm": ">=7.0.0"
   },
   "scripts": {

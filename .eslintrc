@@ -1,3 +1,6 @@
 {
-	"extends": "@sapphire"
+	"extends": "@sapphire",
+	"rules": {
+		"valid-typeof": "off"
+	}
 }

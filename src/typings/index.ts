@@ -5,6 +5,7 @@ import type { KirishimaPlayer } from '../Structures/KirishimaPlayer';
 import type { KirishimaTrack } from '../Structures/Track/KirishimaTrack';
 import type { KirishimaPartialTrack } from '../Structures/Track/KirishimaPartialTrack';
 import { KirishimaFilter } from '../Structures/KirishimaFilter';
+import { KirishimaPlugin } from '../Structures/KirishimaPlugin';
 
 export interface KirishimaOptions {
 	clientId?: string;
@@ -15,6 +16,7 @@ export interface KirishimaOptions {
 	spawnPlayer?: SpawnPlayerOptionHook;
 	/** @description Used for getting global player, most likely used when `VOICE_SERVER_UPDATE` and `VOICE_SERVER_UPDATE` emits. */
 	fetchPlayer?: PlayerOptionHook;
+	plugins?: KirishimaPlugin[];
 }
 
 export interface SpawnPlayerOptionHook {

@@ -39,6 +39,11 @@ export class Kirishima extends EventEmitter {
 	public async initialize(clientId?: string) {
 		if (!clientId && !this.options.clientId) throw new Error('Invalid clientId provided');
 		if (clientId && !this.options.clientId) this.options.clientId = clientId;
+		if (this.options.plugins) {
+			for (const plugin of [...this.options.plugins.values()]) {
+				await plugin.load(this);
+			}
+		}
 		return this.setNodes(this.options.nodes);
 	}
 

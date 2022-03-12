@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { EventEmitter } from 'node:events';
 import type { KirishimaNodeOptions, KirishimaOptions, KirishimaPlayerOptions } from '../typings';
 import crypto from 'node:crypto';
@@ -67,15 +68,33 @@ export class Kirishima extends EventEmitter {
 		return this;
 	}
 
+	public resolveNode(identifierOrGroup?: string) {
+		const resolveGroupedNode = this.nodes.filter((x) => x.connected).find((x) => x.options.group?.includes(identifierOrGroup!)!);
+		if (resolveGroupedNode) return resolveGroupedNode;
+		const resolveIdenfitierNode = this.nodes.filter((x) => x.connected).find((x) => x.options.identifier === identifierOrGroup);
+		if (resolveIdenfitierNode) return resolveIdenfitierNode;
+		return this.resolveBestNode().first();
+	}
+
+	public resolveBestNode() {
+		return this.nodes
+			.filter((x) => x.connected)
+			.sort((x, y) => {
+				const XLoad = x.stats?.cpu ? (x.stats.cpu.systemLoad / x.stats.cpu.cores) * 100 : 0;
+				const YLoad = y.stats?.cpu ? (y.stats.cpu.systemLoad / y.stats.cpu.cores) * 100 : 0;
+				return XLoad - YLoad;
+			});
+	}
+
 	public async resolveTracks(options: string | { source?: string | undefined; query: string }, node?: KirishimaNode): Promise<LoadTrackResponse> {
-		node ??= this.nodes.first();
+		node ??= this.resolveNode();
 		const resolveTracks = await node?.rest.loadTracks(options);
 		if (resolveTracks?.tracks.length) resolveTracks.tracks = resolveTracks.tracks.map((x) => new KirishimaTrack(x));
 		return resolveTracks!;
 	}
 
 	public async spawnPlayer(options: KirishimaPlayerOptions, node?: KirishimaNode) {
-		node ??= this.nodes.first();
+		node ??= this.resolveNode();
 		const player = await this.options.spawnPlayer!(options.guildId, options, node!);
 		return player.connect();
 	}

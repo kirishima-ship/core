@@ -47,6 +47,7 @@ export interface KirishimaNodeOptions {
 	url: string;
 	secure?: boolean;
 	password?: string;
+	group?: string[];
 }
 
 export interface Extendable {

@@ -4,9 +4,11 @@ import { REST } from '@kirishima/rest';
 import type { KirishimaNodeOptions } from '../typings';
 import type { Kirishima } from './Kirishima';
 import { GatewayVoiceServerUpdateDispatch, GatewayVoiceStateUpdateDispatch } from 'discord-api-types/gateway/v9';
+import { LavalinkStatsPayload, WebsocketOpEnum } from 'lavalink-api-types';
 export class KirishimaNode {
 	public ws!: Gateway;
 	public rest!: REST;
+	public stats: LavalinkStatsPayload | undefined;
 	public constructor(public options: KirishimaNodeOptions, public kirishima: Kirishima) {}
 
 	public get connected() {
@@ -28,6 +30,7 @@ export class KirishimaNode {
 		this.ws.on('open', this.open.bind(this));
 		this.ws.on('message', this.message.bind(this));
 		this.ws.on('error', this.error.bind(this));
+		this.ws.on('close', (gateway: Gateway, close: number) => this.kirishima.emit('nodeDisconnect', this, gateway, close));
 		return this;
 	}
 
@@ -43,6 +46,7 @@ export class KirishimaNode {
 		try {
 			const message = JSON.parse(raw);
 			this.kirishima.emit('nodeRaw', this, gateway, message);
+			if (message.op === WebsocketOpEnum.STATS) this.stats = message;
 		} catch (e) {
 			this.kirishima.emit('nodeError', this, gateway, e);
 		}
@@ -53,7 +57,8 @@ export class KirishimaNode {
 			identifier: this.options.identifier,
 			url: this.options.url,
 			secure: this.options.secure,
-			password: this.options.password
+			password: this.options.password,
+			group: this.options.group
 		};
 	}
 

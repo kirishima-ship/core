@@ -6,6 +6,14 @@
 
 </div>
 
+# Instalation 
+```
+npm install @kirishima/core
+```
+
 # Features
-- lorem
-- ipsum
+- Written in TypeScript
+- Support ESM & CommonJS
+- Customize-able Player handler
+- Built-in queue (Plugin)
+- Extend-able, provide raw data from lavalink

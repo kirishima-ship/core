@@ -7,6 +7,7 @@ import { GatewayOpcodes, GatewayVoiceServerUpdateDispatch, GatewayVoiceStateUpda
 import Collection from '@discordjs/collection';
 import { KirishimaPlayer } from './KirishimaPlayer';
 import { LoadTrackResponse } from 'lavalink-api-types';
+import { KirishimaTrack } from './Track/KirishimaTrack';
 
 export class Kirishima extends EventEmitter {
 	public nodes: Collection<string, KirishimaNode> = new Collection();
@@ -66,12 +67,11 @@ export class Kirishima extends EventEmitter {
 		return this;
 	}
 
-	public resolveTracks(
-		options: string | { source?: string | undefined; query: string },
-		node?: KirishimaNode
-	): Promise<LoadTrackResponse> | undefined {
+	public async resolveTracks(options: string | { source?: string | undefined; query: string }, node?: KirishimaNode): Promise<LoadTrackResponse> {
 		node ??= this.nodes.first();
-		return node?.rest.loadTracks(options);
+		const resolveTracks = await node?.rest.loadTracks(options);
+		if (resolveTracks?.tracks.length) resolveTracks.tracks = resolveTracks.tracks.map((x) => new KirishimaTrack(x));
+		return resolveTracks!;
 	}
 
 	public async spawnPlayer(options: KirishimaPlayerOptions, node?: KirishimaNode) {

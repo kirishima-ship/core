@@ -9,6 +9,7 @@ export class KirishimaNode {
 	public ws!: Gateway;
 	public rest!: REST;
 	public stats: LavalinkStatsPayload | undefined;
+	public reconnect = { attempts: 0 };
 	public constructor(public options: KirishimaNodeOptions, public kirishima: Kirishima) {}
 
 	public get connected() {
@@ -30,12 +31,39 @@ export class KirishimaNode {
 		this.ws.on('open', this.open.bind(this));
 		this.ws.on('message', this.message.bind(this));
 		this.ws.on('error', this.error.bind(this));
-		this.ws.on('close', (gateway: Gateway, close: number) => this.kirishima.emit('nodeDisconnect', this, gateway, close));
+		this.ws.on('close', this.close.bind(this));
 		return this;
 	}
 
+	public disconnect() {
+		this.ws.connection?.close(1000, 'Disconnected by user');
+	}
+
 	public open(gateway: Gateway) {
+		this.reconnect.attempts = 0;
+		if (this.kirishima.options.node) {
+			void this.ws.send({
+				op: WebsocketOpEnum.CONFIGURE_RESUMING,
+				key: this.kirishima.options.node.resumeKey,
+				timeout: this.kirishima.options.node.resumeTimeout
+			});
+		}
 		this.kirishima.emit('nodeConnect', this, gateway);
+	}
+
+	public close(gateway: Gateway, close: number) {
+		this.kirishima.emit('nodeDisconnect', this, gateway, close);
+		if (this.kirishima.options.node && this.kirishima.options.node.reconnectOnDisconnect) {
+			if (this.reconnect.attempts < (this.kirishima.options.node.reconnectAttempts ?? 3)) {
+				this.reconnect.attempts++;
+				this.kirishima.emit('nodeReconnect', this, gateway, close);
+				setTimeout(() => {
+					void this.connect();
+				}, this.kirishima.options.node.reconnectInterval ?? 5000);
+			} else {
+				this.kirishima.emit('nodeReconnectFailed', this, gateway, close);
+			}
+		}
 	}
 
 	public error(gateway: Gateway, error: Error) {

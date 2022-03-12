@@ -11,6 +11,13 @@ export interface KirishimaOptions {
 	clientId?: string;
 	clientName?: string;
 	nodes: KirishimaNodeOptions[];
+	node?: {
+		resumeKey?: string;
+		resumeTimeout?: number;
+		reconnectOnDisconnect?: boolean;
+		reconnectInterval?: number;
+		reconnectAttempts?: number;
+	};
 	send(guildId: string, payload: payload): Awaitable<unknown>;
 	/** @description customize-able spawn-player handler, allow you to set it to collection or even redis. */
 	spawnPlayer?: SpawnPlayerOptionHook;

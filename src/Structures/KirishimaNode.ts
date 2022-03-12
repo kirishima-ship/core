@@ -22,11 +22,15 @@ export class KirishimaNode {
 			Authorization: (this.options.password ??= 'youshallnotpass')
 		});
 		if (this.connected) return this;
-		this.ws = new Gateway(`${this.options.url.endsWith('443') ? 'wss' : this.options.secure ? 'wss' : 'ws'}://${this.options.url}`, {
+		const headers = {
 			Authorization: (this.options.password ??= 'youshallnotpass'),
 			'User-Id': this.kirishima.options.clientId!,
 			'Client-Name': (this.kirishima.options.clientName ??= `Kirishima NodeJS Lavalink Client (https://github.com/kirishima-ship/core)`)
-		});
+		};
+
+		// @ts-expect-error If you know how to fix this, please open a PR.
+		if (this.kirishima.options.node?.resumeKey) headers['Resume-Key'] = this.kirishima.options.node.resumeKey;
+		this.ws = new Gateway(`${this.options.url.endsWith('443') ? 'wss' : this.options.secure ? 'wss' : 'ws'}://${this.options.url}`, headers);
 		await this.ws.connect();
 		this.ws.on('open', this.open.bind(this));
 		this.ws.on('message', this.message.bind(this));

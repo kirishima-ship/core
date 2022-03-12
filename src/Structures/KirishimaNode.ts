@@ -15,11 +15,11 @@ export class KirishimaNode {
 	}
 
 	public async connect(): Promise<KirishimaNode> {
-		this.rest ??= new REST(`${this.options.secure ? 'https' : 'http'}://${this.options.url}`, {
+		this.rest ??= new REST(`${this.options.url.endsWith('443') ? 'https' : this.options.secure ? 'https' : 'http'}://${this.options.url}`, {
 			Authorization: (this.options.password ??= 'youshallnotpass')
 		});
 		if (this.connected) return this;
-		this.ws = new Gateway(`${this.options.secure ? 'wss' : 'ws'}://${this.options.url}`, {
+		this.ws = new Gateway(`${this.options.url.endsWith('443') ? 'wss' : this.options.secure ? 'wss' : 'ws'}://${this.options.url}`, {
 			Authorization: (this.options.password ??= 'youshallnotpass'),
 			'User-Id': this.kirishima.options.clientId!,
 			'Client-Name': (this.kirishima.options.clientName ??= `Kirishima NodeJS Lavalink Client (https://github.com/kirishima-ship/core)`)
@@ -35,8 +35,8 @@ export class KirishimaNode {
 		this.kirishima.emit('nodeConnect', this, gateway);
 	}
 
-	public error(gateway: Gateway) {
-		this.kirishima.emit('nodeError', this, gateway);
+	public error(gateway: Gateway, error: Error) {
+		this.kirishima.emit('nodeError', this, gateway, error);
 	}
 
 	public message(gateway: Gateway, raw: string) {

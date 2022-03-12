@@ -92,6 +92,15 @@ export class Kirishima extends EventEmitter {
 		}
 	}
 
+	public async handleRawPacket(t: 'VOICE_SERVER_UPDATE' | 'VOICE_STATE_UPDATE', packet: unknown) {
+		if (t === 'VOICE_STATE_UPDATE') {
+			await this.handleVoiceStateUpdate(packet as GatewayVoiceStateUpdateDispatch);
+		}
+		if (t === 'VOICE_SERVER_UPDATE') {
+			await this.handleVoiceServerUpdate(packet as GatewayVoiceServerUpdateDispatch);
+		}
+	}
+
 	private defaultSpawnPlayerHandler(guildId: string, options: KirishimaPlayerOptions, node: KirishimaNode) {
 		const player = this.players!.has(guildId);
 		if (player) return this.players!.get(guildId)!;

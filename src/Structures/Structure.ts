@@ -7,6 +7,14 @@ import { KirishimaPlayer } from './KirishimaPlayer';
 import { KirishimaPartialTrack } from './Track/KirishimaPartialTrack';
 import { KirishimaTrack } from './Track/KirishimaTrack';
 
+const structures = {
+	KirishimaNode,
+	KirishimaPlayer,
+	KirishimaPartialTrack,
+	KirishimaTrack,
+	KirishimaFilter
+};
+
 export abstract class Structure {
 	public constructor() {
 		throw new Error(`The ${this.constructor.name} class may not be instantiated!`);
@@ -25,11 +33,3 @@ export abstract class Structure {
 		return structure;
 	}
 }
-
-const structures = {
-	KirishimaNode,
-	KirishimaPlayer,
-	KirishimaPartialTrack,
-	KirishimaTrack,
-	KirishimaFilter
-};

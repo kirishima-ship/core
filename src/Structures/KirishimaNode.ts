@@ -18,7 +18,7 @@ export class KirishimaNode {
 	}
 
 	public async connect(): Promise<KirishimaNode> {
-		this.rest ??= new REST(`${this.options.url.endsWith('443') ? 'https' : this.options.secure ? 'https' : 'http'}://${this.options.url}`, {
+		this.rest ??= new REST(`${this.options.url.endsWith('443') || this.options.secure ? 'https' : 'http'}://${this.options.url}`, {
 			Authorization: (this.options.password ??= 'youshallnotpass')
 		});
 		if (this.connected) return this;
@@ -30,7 +30,7 @@ export class KirishimaNode {
 
 		// @ts-expect-error If you know how to fix this, please open a PR.
 		if (this.kirishima.options.node?.resumeKey) headers['Resume-Key'] = this.kirishima.options.node.resumeKey;
-		this.ws = new Gateway(`${this.options.url.endsWith('443') ? 'wss' : this.options.secure ? 'wss' : 'ws'}://${this.options.url}`, headers);
+		this.ws = new Gateway(`${this.options.url.endsWith('443') || this.options.secure ? 'wss' : 'ws'}://${this.options.url}`, headers);
 		await this.ws.connect();
 		this.ws.on('open', this.open.bind(this));
 		this.ws.on('message', this.message.bind(this));

@@ -21,7 +21,7 @@ export interface SpawnPlayerOptionHook {
 }
 
 export interface PlayerOptionHook {
-	(guildId: string): Awaitable<KirishimaPlayer>;
+	(guildId: string): Awaitable<KirishimaPlayer | undefined>;
 }
 export interface payload {
 	op: GatewayOpcodes;

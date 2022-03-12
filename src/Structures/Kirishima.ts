@@ -96,12 +96,12 @@ export class Kirishima extends EventEmitter {
 		const player = this.players!.has(guildId);
 		if (player) return this.players!.get(guildId)!;
 		const kirishimaPlayer = new KirishimaPlayer(options, this, node);
-		this.players?.set(guildId, kirishimaPlayer);
+		this.players!.set(guildId, kirishimaPlayer);
 		return kirishimaPlayer;
 	}
 
 	private defaultFetchPlayerHandler(guildId: string) {
-		return this.players!.get(guildId)!;
+		return this.players!.get(guildId);
 	}
 
 	public static createVoiceChannelPayload(options: KirishimaPlayerOptions, leave?: boolean) {

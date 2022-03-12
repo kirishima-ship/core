@@ -17,4 +17,8 @@ export class KirishimaTrack {
 			info: this.info
 		};
 	}
+
+	public thumbnailURL(size?: unknown) {
+		return this.info.uri.includes('youtube') ? `https://img.youtube.com/vi/${this.info.identifier}/${size ?? 'default'}.jpg` : null;
+	}
 }

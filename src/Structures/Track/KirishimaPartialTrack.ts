@@ -15,6 +15,10 @@ export class KirishimaPartialTrack {
 			info: this.info
 		};
 	}
+
+	public thumbnailURL(_size?: unknown) {
+		return null;
+	}
 }
 
 export interface PartialLavalinkTrack {

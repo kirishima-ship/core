@@ -37,22 +37,22 @@ export class Kirishima extends EventEmitter {
 	public async initialize(clientId?: string) {
 		if (!clientId && !this.options.clientId) throw new Error('Invalid clientId provided');
 		if (clientId && !this.options.clientId) this.options.clientId = clientId;
-		return this.setNode(this.options.nodes);
+		return this.setNodes(this.options.nodes);
 	}
 
-	public async setNode(nodes: KirishimaNodeOptions | KirishimaNodeOptions[]): Promise<Kirishima> {
-		const isArray = Array.isArray(nodes);
+	public async setNodes(nodeOrNodes: KirishimaNodeOptions | KirishimaNodeOptions[]): Promise<Kirishima> {
+		const isArray = Array.isArray(nodeOrNodes);
 		if (isArray) {
-			for (const node of nodes) {
+			for (const node of nodeOrNodes) {
 				const kirishimaNode = new KirishimaNode(node, this);
 				await kirishimaNode.connect();
 				this.nodes.set((node.identifier ??= crypto.randomBytes(4).toString('hex')), kirishimaNode);
 			}
 			return this;
 		}
-		const kirishimaNode = new KirishimaNode(nodes, this);
+		const kirishimaNode = new KirishimaNode(nodeOrNodes, this);
 		await kirishimaNode.connect();
-		this.nodes.set((nodes.identifier ??= crypto.randomBytes(4).toString('hex')), kirishimaNode);
+		this.nodes.set((nodeOrNodes.identifier ??= crypto.randomBytes(4).toString('hex')), kirishimaNode);
 		return this;
 	}
 

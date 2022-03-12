@@ -136,16 +136,4 @@ export class Kirishima extends EventEmitter {
 	private defaultFetchPlayerHandler(guildId: string) {
 		return this.players!.get(guildId);
 	}
-
-	public static createVoiceChannelPayload(options: KirishimaPlayerOptions, leave?: boolean) {
-		return {
-			op: GatewayOpcodes.VoiceStateUpdate,
-			d: {
-				guild_id: options.guildId,
-				channel_id: leave ? null : options.voiceId,
-				self_deaf: (options.selfDeaf ??= false),
-				self_mute: (options.selfMute ??= false)
-			}
-		};
-	}
 }

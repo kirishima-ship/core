@@ -1,6 +1,6 @@
 import { Kirishima } from './Kirishima';
 import type { KirishimaPlayerOptions } from '../typings/index';
-import type { KirishimaNode } from '../index';
+import { createVoiceChannelJoinPayload, KirishimaNode } from '../index';
 import { GatewayVoiceServerUpdateDispatch, GatewayVoiceStateUpdateDispatch } from 'discord-api-types/gateway/v9';
 import {
 	ChannelMixEqualizer,
@@ -25,12 +25,12 @@ export class KirishimaPlayer {
 	public constructor(public options: KirishimaPlayerOptions, public kirishima: Kirishima, public node: KirishimaNode) {}
 
 	public async connect(): Promise<KirishimaPlayer> {
-		await this.kirishima.options.send(this.options.guildId, Kirishima.createVoiceChannelPayload(this.options));
+		await this.kirishima.options.send(this.options.guildId, createVoiceChannelJoinPayload(this.options));
 		return this;
 	}
 
 	public async disconnect(): Promise<KirishimaPlayer> {
-		await this.kirishima.options.send(this.options.guildId, Kirishima.createVoiceChannelPayload(this.options, true));
+		await this.kirishima.options.send(this.options.guildId, createVoiceChannelJoinPayload(this.options, true));
 		return this;
 	}
 

@@ -6,3 +6,4 @@ export * from './Structures/Track/KirishimaPartialTrack';
 export * from './Structures/Track/KirishimaTrack';
 export * from './Structures/KirishimaFilter';
 export * from './typings/index';
+export * from './Util';

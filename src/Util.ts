@@ -1,0 +1,24 @@
+import { GatewayOpcodes } from 'discord-api-types';
+import { KirishimaPartialTrack } from './Structures/Track/KirishimaPartialTrack';
+import { KirishimaTrack } from './Structures/Track/KirishimaTrack';
+import { KirishimaPlayerOptions } from './typings';
+
+export function isPartialTrack(track: unknown): track is KirishimaPartialTrack {
+	return track instanceof KirishimaPartialTrack;
+}
+
+export function isTrack(track: unknown): track is KirishimaTrack {
+	return track instanceof KirishimaTrack;
+}
+
+export function createVoiceChannelJoinPayload(options: KirishimaPlayerOptions, leave?: boolean) {
+	return {
+		op: GatewayOpcodes.VoiceStateUpdate,
+		d: {
+			guild_id: options.guildId,
+			channel_id: leave ? null : options.voiceId,
+			self_deaf: (options.selfDeaf ??= false),
+			self_mute: (options.selfMute ??= false)
+		}
+	};
+}

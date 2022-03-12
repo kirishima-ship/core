@@ -9,7 +9,7 @@ export class KirishimaNode {
 	public ws!: Gateway;
 	public rest!: REST;
 	public stats: LavalinkStatsPayload | undefined;
-	public reconnect = { attempts: 0 };
+	public reconnect: { attempts: number; timeout?: NodeJS.Timeout } = { attempts: 0 };
 	public constructor(public options: KirishimaNodeOptions, public kirishima: Kirishima) {}
 
 	public get connected() {
@@ -41,6 +41,7 @@ export class KirishimaNode {
 
 	public disconnect() {
 		this.ws.connection?.close(1000, 'Disconnected by user');
+		if (this.reconnect.timeout) clearTimeout(this.reconnect.timeout);
 	}
 
 	public open(gateway: Gateway) {
@@ -61,7 +62,7 @@ export class KirishimaNode {
 			if (this.reconnect.attempts < (this.kirishima.options.node.reconnectAttempts ?? 3)) {
 				this.reconnect.attempts++;
 				this.kirishima.emit('nodeReconnect', this, gateway, close);
-				setTimeout(() => {
+				this.reconnect.timeout = setTimeout(() => {
 					void this.connect();
 				}, this.kirishima.options.node.reconnectInterval ?? 5000);
 			} else {

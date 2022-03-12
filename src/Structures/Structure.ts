@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-extraneous-class */
 import type { Extendable } from '../typings';
+import { KirishimaFilter } from './KirishimaFilter';
 
 import { KirishimaNode } from './KirishimaNode';
 import { KirishimaPlayer } from './KirishimaPlayer';
@@ -29,5 +30,6 @@ const structures = {
 	KirishimaNode,
 	KirishimaPlayer,
 	KirishimaPartialTrack,
-	KirishimaTrack
+	KirishimaTrack,
+	KirishimaFilter
 };

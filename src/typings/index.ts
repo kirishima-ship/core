@@ -4,6 +4,7 @@ import type { KirishimaNode } from '../Structures/KirishimaNode';
 import type { KirishimaPlayer } from '../Structures/KirishimaPlayer';
 import type { KirishimaTrack } from '../Structures/Track/KirishimaTrack';
 import type { KirishimaPartialTrack } from '../Structures/Track/KirishimaPartialTrack';
+import { KirishimaFilter } from '../Structures/KirishimaFilter';
 
 export interface KirishimaOptions {
 	clientId?: string;
@@ -55,4 +56,5 @@ export interface Extendable {
 	KirishimaPlayer: typeof KirishimaPlayer;
 	KirishimaTrack: typeof KirishimaTrack;
 	KirishimaPartialTrack: typeof KirishimaPartialTrack;
+	KirishimaFilter: typeof KirishimaFilter;
 }

@@ -8,7 +8,7 @@ import { GatewayOpcodes, GatewayVoiceServerUpdateDispatch, GatewayVoiceStateUpda
 import Collection from '@discordjs/collection';
 import { KirishimaPlayer } from './KirishimaPlayer';
 import { LoadTrackResponse } from 'lavalink-api-types';
-import { KirishimaTrack } from './Track/KirishimaTrack';
+import { Structure } from './Structure';
 
 export class Kirishima extends EventEmitter {
 	public nodes: Collection<string, KirishimaNode> = new Collection();
@@ -46,13 +46,13 @@ export class Kirishima extends EventEmitter {
 		const isArray = Array.isArray(nodeOrNodes);
 		if (isArray) {
 			for (const node of nodeOrNodes) {
-				const kirishimaNode = new KirishimaNode(node, this);
+				const kirishimaNode = new (Structure.get('KirishimaNode'))(node, this);
 				await kirishimaNode.connect();
 				this.nodes.set((node.identifier ??= crypto.randomBytes(4).toString('hex')), kirishimaNode);
 			}
 			return this;
 		}
-		const kirishimaNode = new KirishimaNode(nodeOrNodes, this);
+		const kirishimaNode = new (Structure.get('KirishimaNode'))(nodeOrNodes, this);
 		await kirishimaNode.connect();
 		this.nodes.set((nodeOrNodes.identifier ??= crypto.randomBytes(4).toString('hex')), kirishimaNode);
 		return this;
@@ -89,7 +89,7 @@ export class Kirishima extends EventEmitter {
 	public async resolveTracks(options: string | { source?: string | undefined; query: string }, node?: KirishimaNode): Promise<LoadTrackResponse> {
 		node ??= this.resolveNode();
 		const resolveTracks = await node?.rest.loadTracks(options);
-		if (resolveTracks?.tracks.length) resolveTracks.tracks = resolveTracks.tracks.map((x) => new KirishimaTrack(x));
+		if (resolveTracks?.tracks.length) resolveTracks.tracks = resolveTracks.tracks.map((x) => new (Structure.get('KirishimaTrack'))(x));
 		return resolveTracks!;
 	}
 
@@ -123,7 +123,7 @@ export class Kirishima extends EventEmitter {
 	private defaultSpawnPlayerHandler(guildId: string, options: KirishimaPlayerOptions, node: KirishimaNode) {
 		const player = this.players!.has(guildId);
 		if (player) return this.players!.get(guildId)!;
-		const kirishimaPlayer = new KirishimaPlayer(options, this, node);
+		const kirishimaPlayer = new (Structure.get('KirishimaPlayer'))(options, this, node);
 		this.players!.set(guildId, kirishimaPlayer);
 		return kirishimaPlayer;
 	}

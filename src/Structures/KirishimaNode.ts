@@ -40,7 +40,12 @@ export class KirishimaNode {
 	}
 
 	public message(gateway: Gateway, raw: string) {
-		this.kirishima.emit('nodeRaw', this, gateway, raw);
+		try {
+			const message = JSON.parse(raw);
+			this.kirishima.emit('nodeRaw', this, gateway, message);
+		} catch (e) {
+			this.kirishima.emit('nodeError', this, gateway, e);
+		}
 	}
 
 	public toJSON() {

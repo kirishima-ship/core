@@ -47,4 +47,13 @@ export class KirishimaPlayer {
 		});
 		return this;
 	}
+
+	public async setFilters(filters: { [key: string]: string }) {
+		await this.node.ws.send({
+			op: WebsocketOpEnum.FILTERS,
+			guildId: this.options.guildId,
+			filters
+		});
+		return this;
+	}
 }

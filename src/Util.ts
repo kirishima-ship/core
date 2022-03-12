@@ -1,4 +1,4 @@
-import { GatewayOpcodes } from 'discord-api-types';
+import { GatewayOpcodes } from 'discord-api-types/gateway/v9';
 import { KirishimaPartialTrack } from './Structures/Track/KirishimaPartialTrack';
 import { KirishimaTrack } from './Structures/Track/KirishimaTrack';
 import { KirishimaPlayerOptions } from './typings';

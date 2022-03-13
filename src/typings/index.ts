@@ -6,6 +6,7 @@ import type { KirishimaTrack } from '../Structures/Track/KirishimaTrack';
 import type { KirishimaPartialTrack } from '../Structures/Track/KirishimaPartialTrack';
 import { KirishimaFilter } from '../Structures/KirishimaFilter';
 import { KirishimaPlugin } from '../Structures/KirishimaPlugin';
+import { BasePlayer } from '../Structures/BasePlayer';
 
 export interface KirishimaOptions {
 	clientId?: string;
@@ -27,11 +28,11 @@ export interface KirishimaOptions {
 }
 
 export interface SpawnPlayerOptionHook {
-	(guildId: string, options: KirishimaPlayerOptions, node: KirishimaNode): Awaitable<unknown>;
+	(guildId: string, options: KirishimaPlayerOptions, node: KirishimaNode): Awaitable<BasePlayer>;
 }
 
 export interface PlayerOptionHook {
-	(guildId: string): Awaitable<unknown | undefined>;
+	(guildId: string): Awaitable<BasePlayer | undefined>;
 }
 export interface payload {
 	op: GatewayOpcodes;

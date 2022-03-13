@@ -99,14 +99,14 @@ export class KirishimaNode {
 	public async handleVoiceServerUpdate(packet: GatewayVoiceServerUpdateDispatch) {
 		const player = await this.kirishima.options.fetchPlayer!(packet.d.guild_id);
 		if (player) {
-			await (player as KirishimaPlayer).setServerUpdate(packet);
+			await player.setServerUpdate(packet);
 		}
 	}
 
 	public async handleVoiceStateUpdate(packet: GatewayVoiceStateUpdateDispatch) {
 		const player = await this.kirishima.options.fetchPlayer!(packet.d.guild_id!);
 		if (player) {
-			(player as KirishimaPlayer).setStateUpdate(packet);
+			player.setStateUpdate(packet);
 		}
 	}
 }

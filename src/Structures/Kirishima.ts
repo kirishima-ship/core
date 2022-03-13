@@ -4,7 +4,7 @@ import type { KirishimaNodeOptions, KirishimaOptions, KirishimaPlayerOptions } f
 import crypto from 'node:crypto';
 
 import { KirishimaNode } from './KirishimaNode';
-import { GatewayOpcodes, GatewayVoiceServerUpdateDispatch, GatewayVoiceStateUpdateDispatch } from 'discord-api-types/gateway/v9';
+import { GatewayVoiceServerUpdateDispatch, GatewayVoiceStateUpdateDispatch } from 'discord-api-types/gateway/v9';
 import Collection from '@discordjs/collection';
 import { KirishimaPlayer } from './KirishimaPlayer';
 import { LoadTrackResponse } from 'lavalink-api-types';
@@ -101,7 +101,7 @@ export class Kirishima extends EventEmitter {
 	public async spawnPlayer(options: KirishimaPlayerOptions, node?: KirishimaNode) {
 		node ??= this.resolveNode();
 		const player = await this.options.spawnPlayer!(options.guildId, options, node!);
-		return (player as KirishimaPlayer).connect();
+		return player.connect();
 	}
 
 	public async handleVoiceServerUpdate(packet: GatewayVoiceServerUpdateDispatch) {

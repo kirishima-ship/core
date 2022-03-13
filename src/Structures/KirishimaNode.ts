@@ -5,6 +5,7 @@ import type { KirishimaNodeOptions } from '../typings';
 import type { Kirishima } from './Kirishima';
 import { GatewayVoiceServerUpdateDispatch, GatewayVoiceStateUpdateDispatch } from 'discord-api-types/gateway/v9';
 import { LavalinkStatsPayload, WebsocketOpEnum } from 'lavalink-api-types';
+import { KirishimaPlayer } from './KirishimaPlayer';
 export class KirishimaNode {
 	public ws!: Gateway;
 	public rest!: REST;
@@ -98,14 +99,14 @@ export class KirishimaNode {
 	public async handleVoiceServerUpdate(packet: GatewayVoiceServerUpdateDispatch) {
 		const player = await this.kirishima.options.fetchPlayer!(packet.d.guild_id);
 		if (player) {
-			await player.setServerUpdate(packet);
+			await (player as KirishimaPlayer).setServerUpdate(packet);
 		}
 	}
 
 	public async handleVoiceStateUpdate(packet: GatewayVoiceStateUpdateDispatch) {
 		const player = await this.kirishima.options.fetchPlayer!(packet.d.guild_id!);
 		if (player) {
-			player.setStateUpdate(packet);
+			(player as KirishimaPlayer).setStateUpdate(packet);
 		}
 	}
 }

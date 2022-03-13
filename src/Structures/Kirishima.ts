@@ -101,7 +101,7 @@ export class Kirishima extends EventEmitter {
 	public async spawnPlayer(options: KirishimaPlayerOptions, node?: KirishimaNode) {
 		node ??= this.resolveNode();
 		const player = await this.options.spawnPlayer!(options.guildId, options, node!);
-		return player.connect();
+		return (player as KirishimaPlayer).connect();
 	}
 
 	public async handleVoiceServerUpdate(packet: GatewayVoiceServerUpdateDispatch) {

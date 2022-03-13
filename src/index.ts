@@ -5,5 +5,6 @@ export * from './Structures/KirishimaNode';
 export * from './Structures/Track/KirishimaPartialTrack';
 export * from './Structures/Track/KirishimaTrack';
 export * from './Structures/KirishimaFilter';
+export * from './Structures/KirishimaPlugin';
 export * from './typings/index';
 export * from './Util';

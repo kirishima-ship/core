@@ -1,6 +1,6 @@
 import { Kirishima } from './Kirishima';
 import type { KirishimaPlayerOptions } from '../typings/index';
-import { createVoiceChannelJoinPayload, KirishimaNode } from '../index';
+import { createVoiceChannelJoinPayload, isTrack, KirishimaNode } from '../index';
 import { GatewayVoiceServerUpdateDispatch, GatewayVoiceStateUpdateDispatch } from 'discord-api-types/gateway/v9';
 import {
 	ChannelMixEqualizer,
@@ -53,7 +53,7 @@ export class KirishimaPlayer {
 	public async playTrack(track: KirishimaTrack | string, options?: { noReplace?: boolean; pause?: boolean; startTime?: number; endTime?: number }) {
 		await this.node.ws.send({
 			op: WebsocketOpEnum.PLAY,
-			track: track instanceof KirishimaTrack ? track.track : track,
+			track: isTrack(track) ? track.track : track,
 			guildId: this.options.guildId,
 			noReplace: true,
 			...options

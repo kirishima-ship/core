@@ -61,6 +61,14 @@ export class KirishimaPlayer {
 		return this;
 	}
 
+	public async stopTrack() {
+		await this.node.ws.send({
+			op: WebsocketOpEnum.STOP,
+			guildId: this.options.guildId
+		});
+		return this;
+	}
+
 	public async setVolume(volume: number) {
 		if (volume < 10 || volume > 500) throw new Error('Volume must be between 10 and 500');
 		this.filters.volume = volume / 100;

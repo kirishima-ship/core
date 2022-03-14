@@ -5,7 +5,7 @@ import type { KirishimaNodeOptions } from '../typings';
 import type { Kirishima } from './Kirishima';
 import { GatewayVoiceServerUpdateDispatch, GatewayVoiceStateUpdateDispatch } from 'discord-api-types/gateway/v9';
 import { LavalinkStatsPayload, WebsocketOpEnum } from 'lavalink-api-types';
-import { KirishimaPlayer } from './KirishimaPlayer';
+
 export class KirishimaNode {
 	public ws!: Gateway;
 	public rest!: REST;
@@ -47,7 +47,7 @@ export class KirishimaNode {
 
 	public open(gateway: Gateway) {
 		this.reconnect.attempts = 0;
-		if (this.kirishima.options.node) {
+		if (this.kirishima.options.node?.resumeKey && this.kirishima.options.node.resumeTimeout) {
 			void this.ws.send({
 				op: WebsocketOpEnum.CONFIGURE_RESUMING,
 				key: this.kirishima.options.node.resumeKey,

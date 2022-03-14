@@ -46,7 +46,7 @@ export interface payload {
 
 export interface KirishimaPlayerOptions {
 	guildId: string;
-	shardId?: string;
+	shardId?: number;
 	channelId: string;
 	textChannelId?: string;
 	selfDeaf?: boolean;

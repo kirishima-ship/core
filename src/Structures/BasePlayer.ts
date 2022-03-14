@@ -8,13 +8,13 @@ export class BasePlayer {
 
 	public constructor(public options: KirishimaPlayerOptions, public kirishima: Kirishima, public node: KirishimaNode) {}
 
-	public async connect(): Promise<BasePlayer> {
-		await this.kirishima.options.send(this.options.guildId, createVoiceChannelJoinPayload(this.options));
+	public async connect() {
+		await this.kirishima.options.send(this.options, createVoiceChannelJoinPayload(this.options));
 		return this;
 	}
 
-	public async disconnect(): Promise<BasePlayer> {
-		await this.kirishima.options.send(this.options.guildId, createVoiceChannelJoinPayload(this.options, true));
+	public async disconnect() {
+		await this.kirishima.options.send(this.options, createVoiceChannelJoinPayload(this.options, true));
 		return this;
 	}
 

@@ -16,7 +16,7 @@ export function createVoiceChannelJoinPayload(options: KirishimaPlayerOptions, l
 		op: GatewayOpcodes.VoiceStateUpdate,
 		d: {
 			guild_id: options.guildId,
-			channel_id: leave ? null : options.voiceId,
+			channel_id: leave ? null : options.channelId,
 			self_deaf: (options.selfDeaf ??= false),
 			self_mute: (options.selfMute ??= false)
 		}

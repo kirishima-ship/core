@@ -19,7 +19,7 @@ export interface KirishimaOptions {
 		reconnectInterval?: number;
 		reconnectAttempts?: number;
 	};
-	send(guildId: string, payload: payload): Awaitable<unknown>;
+	send(options: KirishimaPlayerOptions, payload: payload): Awaitable<unknown>;
 	/** @description customize-able spawn-player handler, allow you to set it to collection or even redis. */
 	spawnPlayer?: SpawnPlayerOptionHook;
 	/** @description Used for getting global player, most likely used when `VOICE_SERVER_UPDATE` and `VOICE_SERVER_UPDATE` emits. note: you must provide same major method when customizing player handler. */
@@ -47,8 +47,8 @@ export interface payload {
 export interface KirishimaPlayerOptions {
 	guildId: string;
 	shardId?: string;
-	channelId?: string;
-	voiceId: string;
+	channelId: string;
+	textChannelId?: string;
 	selfDeaf?: boolean;
 	selfMute?: boolean;
 }

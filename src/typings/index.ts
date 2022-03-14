@@ -28,11 +28,11 @@ export interface KirishimaOptions {
 }
 
 export interface SpawnPlayerOptionHook {
-	(guildId: string, options: KirishimaPlayerOptions, node: KirishimaNode): Awaitable<BasePlayer>;
+	(guildId: string, options: KirishimaPlayerOptions, node: KirishimaNode): Awaitable<unknown>;
 }
 
 export interface PlayerOptionHook {
-	(guildId: string): Awaitable<BasePlayer | undefined>;
+	(guildId: string): Awaitable<unknown | undefined>;
 }
 export interface payload {
 	op: GatewayOpcodes;

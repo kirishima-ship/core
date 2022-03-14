@@ -98,7 +98,7 @@ export class Kirishima extends EventEmitter {
 		return resolveTracks!;
 	}
 
-	public async spawnPlayer(options: KirishimaPlayerOptions, node?: KirishimaNode) {
+	public spawnPlayer(options: KirishimaPlayerOptions, node?: KirishimaNode) {
 		node ??= this.resolveNode();
 		return this.options.spawnPlayer!(options.guildId, options, node!);
 	}

@@ -17,9 +17,8 @@ import {
 import { KirishimaTrack } from './Track/KirishimaTrack';
 import { KirishimaFilter, KirishimaFilterOptions } from './KirishimaFilter';
 import { Structure } from './Structure';
-import { BasePlayer } from './BasePlayer';
 
-export class KirishimaPlayer extends BasePlayer {
+export class KirishimaPlayer extends Structure.get('BasePlayer') {
 	public filters = new (Structure.get('KirishimaFilter'))();
 	public paused = false;
 	public playing = false;

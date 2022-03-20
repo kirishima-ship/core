@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { EventEmitter } from 'node:events';
-import type { KirishimaNodeOptions, KirishimaOptions, KirishimaPlayerOptions } from '../typings';
+import type { KirishimaNodeOptions, KirishimaOptions, KirishimaPlayerOptions, LoadTrackResponse } from '../typings';
 import crypto from 'node:crypto';
 
 import { KirishimaNode } from './KirishimaNode';
 import { GatewayVoiceServerUpdateDispatch, GatewayVoiceStateUpdateDispatch } from 'discord-api-types/gateway/v9';
 import Collection from '@discordjs/collection';
 import { KirishimaPlayer } from './KirishimaPlayer';
-import { LoadTrackResponse } from 'lavalink-api-types';
 import { Structure } from './Structure';
 
 export class Kirishima extends EventEmitter {
@@ -93,14 +92,13 @@ export class Kirishima extends EventEmitter {
 
 	public async resolveTracks(options: string | { source?: string | undefined; query: string }, node?: KirishimaNode): Promise<LoadTrackResponse> {
 		node ??= this.resolveNode();
-		const resolveTracks = await node?.rest.loadTracks(options);
+		const resolveTracks = await node!.rest.loadTracks(options);
 		if (resolveTracks?.tracks.length) resolveTracks.tracks = resolveTracks.tracks.map((x) => new (Structure.get('KirishimaTrack'))(x));
-		return resolveTracks!;
+		return resolveTracks as unknown as LoadTrackResponse;
 	}
 
 	public spawnPlayer(options: KirishimaPlayerOptions, node?: KirishimaNode) {
-		node ??= this.resolveNode();
-		return this.options.spawnPlayer!(options.guildId, options, node!);
+		return this.options.spawnPlayer!(options.guildId, options, node ?? this.resolveNode()!);
 	}
 
 	public async handleVoiceServerUpdate(packet: GatewayVoiceServerUpdateDispatch) {

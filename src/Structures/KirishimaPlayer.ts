@@ -21,6 +21,9 @@ import { BasePlayer } from './BasePlayer';
 
 export class KirishimaPlayer extends BasePlayer {
 	public filters = new (Structure.get('KirishimaFilter'))();
+	public paused = false;
+	public playing = false;
+
 	public constructor(public options: KirishimaPlayerOptions, public kirishima: Kirishima, public node: KirishimaNode) {
 		super(options, kirishima, node);
 	}
@@ -45,7 +48,7 @@ export class KirishimaPlayer extends BasePlayer {
 	}
 
 	public async setVolume(volume: number) {
-		if (volume < 10 || volume > 500) throw new Error('Volume must be between 10 and 500');
+		if (volume < 0 || volume > 500) throw new Error('Volume must be between 0 and 500');
 		this.filters.volume = volume / 100;
 		await this.node.ws.send({
 			op: WebsocketOpEnum.FILTERS,
@@ -151,5 +154,27 @@ export class KirishimaPlayer extends BasePlayer {
 			guildId: this.options.guildId,
 			...this.filters
 		});
+	}
+
+	public async setPaused(paused: boolean) {
+		await this.node.ws.send({
+			op: WebsocketOpEnum.PAUSE,
+			guildId: this.options.guildId,
+			pause: paused
+		});
+		this.paused = paused;
+		return this;
+	}
+
+	public async seekTo(position: number) {
+		if (this.playing) {
+			await this.node.ws.send({
+				op: WebsocketOpEnum.SEEK,
+				guildId: this.options.guildId,
+				position
+			});
+			return this;
+		}
+		throw new Error('There are no playing track currently.');
 	}
 }

@@ -16,7 +16,7 @@ export class KirishimaPartialTrack {
 		};
 	}
 
-	public thumbnailURL(_size?: unknown) {
+	public thumbnailURL(_size?: unknown): string | null {
 		return null;
 	}
 }

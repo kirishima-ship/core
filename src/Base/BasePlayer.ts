@@ -1,12 +1,13 @@
 import { GatewayVoiceServerUpdateDispatch, GatewayVoiceStateUpdateDispatch } from 'discord-api-types/gateway/v9';
 import { WebsocketOpEnum } from 'lavalink-api-types';
-import { KirishimaPlayerOptions, Kirishima, KirishimaNode, createVoiceChannelJoinPayload } from '..';
+import { KirishimaPlayerOptions, KirishimaNode, createVoiceChannelJoinPayload } from '..';
+import { BaseKirishima } from './BaseKirishima';
 
 export class BasePlayer {
 	public voiceServer: GatewayVoiceServerUpdateDispatch['d'] | undefined;
 	public voiceState: GatewayVoiceStateUpdateDispatch['d'] | undefined;
 
-	public constructor(public options: KirishimaPlayerOptions, public kirishima: Kirishima, public node: KirishimaNode) {}
+	public constructor(public options: KirishimaPlayerOptions, public kirishima: BaseKirishima, public node: KirishimaNode) {}
 
 	public async connect() {
 		await this.kirishima.options.send(this.options, createVoiceChannelJoinPayload(this.options));

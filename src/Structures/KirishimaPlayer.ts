@@ -1,4 +1,3 @@
-import { Kirishima } from './Kirishima';
 import type { KirishimaPlayerOptions } from '../typings/index';
 import { isTrack, KirishimaNode } from '../index';
 
@@ -17,13 +16,14 @@ import {
 import { KirishimaTrack } from './Track/KirishimaTrack';
 import { KirishimaFilter, KirishimaFilterOptions } from './KirishimaFilter';
 import { Structure } from './Structure';
+import { BaseKirishima } from '../Base/BaseKirishima';
 
 export class KirishimaPlayer extends Structure.get('BasePlayer') {
 	public filters = new (Structure.get('KirishimaFilter'))();
 	public paused = false;
 	public playing = false;
 
-	public constructor(public options: KirishimaPlayerOptions, public kirishima: Kirishima, public node: KirishimaNode) {
+	public constructor(public options: KirishimaPlayerOptions, public kirishima: BaseKirishima, public node: KirishimaNode) {
 		super(options, kirishima, node);
 	}
 

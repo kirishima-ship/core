@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-extraneous-class */
 import type { Extendable } from '../typings';
-import { BasePlayer } from './BasePlayer';
+import { BasePlayer } from '../Base/BasePlayer';
 import { KirishimaFilter } from './KirishimaFilter';
 
 import { KirishimaNode } from './KirishimaNode';
 import { KirishimaPlayer } from './KirishimaPlayer';
 import { KirishimaPartialTrack } from './Track/KirishimaPartialTrack';
 import { KirishimaTrack } from './Track/KirishimaTrack';
+import { BaseKirishima } from '../Base/BaseKirishima';
 
 const structures = {
 	KirishimaNode,
@@ -14,7 +15,8 @@ const structures = {
 	KirishimaPartialTrack,
 	KirishimaTrack,
 	KirishimaFilter,
-	BasePlayer
+	BasePlayer,
+	BaseKirishima
 };
 
 export abstract class Structure {

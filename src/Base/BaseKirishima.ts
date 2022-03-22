@@ -4,6 +4,7 @@ import EventEmitter from 'node:events';
 import { KirishimaPlayer, KirishimaPlayerOptions } from '..';
 import { KirishimaNode } from '../Structures/KirishimaNode';
 import { Structure } from '../Structures/Structure';
+import { KirishimaTrack } from '../Structures/Track/KirishimaTrack';
 import { KirishimaOptions, LoadTrackResponse } from '../typings';
 
 export class BaseKirishima extends EventEmitter {
@@ -50,11 +51,14 @@ export class BaseKirishima extends EventEmitter {
 			});
 	}
 
-	public async resolveTracks(options: string | { source?: string | undefined; query: string }, node?: KirishimaNode): Promise<LoadTrackResponse> {
+	public async resolveTracks(
+		options: string | { source?: string | undefined; query: string },
+		node?: KirishimaNode
+	): Promise<LoadTrackResponse<KirishimaTrack>> {
 		node ??= this.resolveNode();
 		const resolveTracks = await node!.rest.loadTracks(options);
 		if (resolveTracks?.tracks.length) resolveTracks.tracks = resolveTracks.tracks.map((x) => new (Structure.get('KirishimaTrack'))(x));
-		return resolveTracks as unknown as LoadTrackResponse;
+		return resolveTracks as unknown as LoadTrackResponse<KirishimaTrack>;
 	}
 
 	private defaultSpawnPlayerHandler(guildId: string, options: KirishimaPlayerOptions, node: KirishimaNode) {

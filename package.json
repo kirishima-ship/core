@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "description": "Kirishima is extendable, fast, flexible, asynchronous lavalink client",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "license": "GPL-3.0",
   "repository": {
     "url": "https://github.com/kirishima-ship/core"

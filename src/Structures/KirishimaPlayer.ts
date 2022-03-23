@@ -1,5 +1,5 @@
 import type { KirishimaPlayerOptions } from '../typings/index';
-import { isTrack, KirishimaNode } from '../index';
+import { BasePlayer, isTrack, KirishimaNode } from '../index';
 
 import {
 	ChannelMixEqualizer,
@@ -18,7 +18,7 @@ import { KirishimaFilter, KirishimaFilterOptions } from './KirishimaFilter';
 import { Structure } from './Structure';
 import { BaseKirishima } from '../Base/BaseKirishima';
 
-export class KirishimaPlayer extends Structure.get('BasePlayer') {
+export class KirishimaPlayer extends BasePlayer {
 	public filters = new (Structure.get('KirishimaFilter'))();
 	public paused = false;
 	public playing = false;

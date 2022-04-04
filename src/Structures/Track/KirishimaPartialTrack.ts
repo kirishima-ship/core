@@ -7,8 +7,8 @@ export class KirishimaPartialTrack {
 	public track?: string;
 	public info: PartialLavalinkTrack['info'];
 	public constructor(raw: PartialLavalinkTrack) {
-		this.track = raw.track!;
-		this.info = raw.info!;
+		this.track = raw.track;
+		this.info = raw.info;
 	}
 
 	public toJSON() {

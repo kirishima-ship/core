@@ -1,4 +1,4 @@
-import { Awaitable } from "@sapphire/utilities";
+import { Awaitable } from '@sapphire/utilities';
 
 /**
  * @description Represents a unplayable track by lavalink. This is a partial track. that must be resolved later

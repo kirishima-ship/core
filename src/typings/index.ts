@@ -6,8 +6,7 @@ import type { KirishimaTrack } from '../Structures/Track/KirishimaTrack';
 import type { KirishimaPartialTrack } from '../Structures/Track/KirishimaPartialTrack';
 import { KirishimaFilter } from '../Structures/KirishimaFilter';
 import { KirishimaPlugin } from '../Structures/KirishimaPlugin';
-import { LoadTrackResponse as OLoadTrackResponse } from 'lavalink-api-types';
-import { BasePlayer } from '../Structures/Base/BasePlayer';
+import { Exception, LoadTypeEnum } from 'lavalink-api-types';
 
 export interface KirishimaOptions {
 	clientId?: string;
@@ -70,6 +69,12 @@ export interface Extendable {
 	KirishimaFilter: typeof KirishimaFilter;
 }
 
-export interface LoadTrackResponse extends OLoadTrackResponse {
-	tracks: Array<KirishimaTrack>;
+export interface LoadTrackResponse {
+	loadType: LoadTypeEnum;
+	playlistInfo?: {
+		name: string;
+		selectedTrack: number;
+	};
+	tracks: (KirishimaTrack | KirishimaPartialTrack)[];
+	exception?: Omit<Exception, 'cause'>;
 }

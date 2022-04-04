@@ -5,7 +5,7 @@ import type { KirishimaNodeOptions } from '../typings';
 import type { Kirishima } from './Kirishima';
 import { GatewayVoiceServerUpdateDispatch, GatewayVoiceStateUpdateDispatch } from 'discord-api-types/gateway/v9';
 import { LavalinkStatsPayload, WebsocketOpEnum } from 'lavalink-api-types';
-import { BasePlayer } from './BasePlayer';
+import { BasePlayer } from './Base/BasePlayer';
 
 export class KirishimaNode {
 	public ws!: Gateway;

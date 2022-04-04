@@ -1,3 +1,5 @@
+import { Awaitable } from "@sapphire/utilities";
+
 /**
  * @description Represents a unplayable track by lavalink. This is a partial track. that must be resolved later
  */
@@ -5,8 +7,8 @@ export class KirishimaPartialTrack {
 	public track?: string;
 	public info: PartialLavalinkTrack['info'];
 	public constructor(raw: PartialLavalinkTrack) {
-		this.track = raw.track;
-		this.info = raw.info;
+		this.track = raw.track!;
+		this.info = raw.info!;
 	}
 
 	public toJSON() {
@@ -16,14 +18,14 @@ export class KirishimaPartialTrack {
 		};
 	}
 
-	public thumbnailURL(_size?: unknown) {
+	public thumbnailURL(_size?: unknown): Awaitable<string | null> {
 		return null;
 	}
 }
 
 export interface PartialLavalinkTrack {
 	track?: string;
-	info: {
+	info?: {
 		identifier?: string;
 		isSeekable?: boolean;
 		author?: string;

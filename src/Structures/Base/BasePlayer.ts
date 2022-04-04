@@ -1,6 +1,6 @@
 import { GatewayVoiceServerUpdateDispatch, GatewayVoiceStateUpdateDispatch } from 'discord-api-types/gateway/v9';
 import { WebsocketOpEnum } from 'lavalink-api-types';
-import { KirishimaPlayerOptions, Kirishima, KirishimaNode, createVoiceChannelJoinPayload } from '..';
+import { KirishimaPlayerOptions, KirishimaNode, createVoiceChannelJoinPayload, Kirishima } from '../..';
 
 export class BasePlayer {
 	public voiceServer: GatewayVoiceServerUpdateDispatch['d'] | undefined;

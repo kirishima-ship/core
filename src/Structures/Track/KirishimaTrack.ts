@@ -1,3 +1,4 @@
+import { Awaitable } from '@sapphire/utilities';
 import { LavalinkTrack } from 'lavalink-api-types';
 
 /**
@@ -18,7 +19,7 @@ export class KirishimaTrack {
 		};
 	}
 
-	public thumbnailURL(size?: unknown) {
+	public thumbnailURL(size?: unknown): Awaitable<string | null> {
 		return this.info.uri.includes('youtube') ? `https://img.youtube.com/vi/${this.info.identifier}/${size ?? 'default'}.jpg` : null;
 	}
 }

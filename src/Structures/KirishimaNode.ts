@@ -6,12 +6,16 @@ import type { Kirishima } from './Kirishima';
 import { GatewayVoiceServerUpdateDispatch, GatewayVoiceStateUpdateDispatch } from 'discord-api-types/gateway/v9';
 import { LavalinkStatsPayload, WebsocketOpEnum } from 'lavalink-api-types';
 import { BasePlayer } from './Base/BasePlayer';
+import Collection from '@discordjs/collection';
+import { Snowflake } from 'discord-api-types/globals';
 
 export class KirishimaNode {
 	public ws!: Gateway;
 	public rest!: REST;
 	public stats: LavalinkStatsPayload | undefined;
 	public reconnect: { attempts: number; timeout?: NodeJS.Timeout } = { attempts: 0 };
+	public voiceServers: Collection<Snowflake, GatewayVoiceServerUpdateDispatch['d']> = new Collection();
+	public voiceStates: Collection<Snowflake, GatewayVoiceStateUpdateDispatch['d']> = new Collection();
 	public constructor(public options: KirishimaNodeOptions, public kirishima: Kirishima) {}
 
 	public get connected() {
@@ -107,7 +111,7 @@ export class KirishimaNode {
 	public async handleVoiceStateUpdate(packet: GatewayVoiceStateUpdateDispatch) {
 		const player = (await this.kirishima.options.fetchPlayer!(packet.d.guild_id!)) as BasePlayer;
 		if (player) {
-			player.setStateUpdate(packet);
+			await player.setStateUpdate(packet);
 		}
 	}
 }
